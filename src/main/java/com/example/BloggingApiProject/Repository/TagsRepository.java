@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface TagsRepository extends JpaRepository<Tag, Long> {
 
     public Tag findTagByName(String name);
+
+    boolean existsByName(String name);
 }

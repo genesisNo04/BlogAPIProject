@@ -6,6 +6,8 @@ import com.example.BloggingApiProject.Service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TagServiceImpl implements TagService {
 
@@ -21,5 +23,20 @@ public class TagServiceImpl implements TagService {
         }
 
         return tag;
+    }
+
+    @Override
+    public Tag saveTag(Tag tag) {
+        return tagsRepository.save(tag);
+    }
+
+    @Override
+    public List<Tag> getAllTag() {
+        return tagsRepository.findAll();
+    }
+
+    @Override
+    public boolean existByName(String name) {
+        return tagsRepository.existsByName(name);
     }
 }

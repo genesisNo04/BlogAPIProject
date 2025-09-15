@@ -11,9 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "Blog")
-@Setter
-@Getter
-@NoArgsConstructor
 public class Blog {
 
     @Id
@@ -26,12 +23,13 @@ public class Blog {
     @Column(name = "blog_content")
     private String content;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
         name = "blog_tags",
         joinColumns = @JoinColumn(name = "blogs_id"),
         inverseJoinColumns = @JoinColumn(name = "tags_id")
     )
-    private List<String> tags;
+    private List<Tag> tags;
 
     @JsonFormat(pattern = "MMMM dd, yyyy")
     private LocalDateTime createdAt;
@@ -39,11 +37,62 @@ public class Blog {
     @JsonFormat(pattern = "MMMM dd, yyyy")
     private LocalDateTime modifiedAt;
 
-    public Blog(String title, String content, List<String> tags, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Blog() {
+    }
+
+    public Blog(String title, String content, List<Tag> tags, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.title = title;
         this.content = content;
         this.tags = tags;
         this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 }
