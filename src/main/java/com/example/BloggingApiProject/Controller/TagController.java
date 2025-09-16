@@ -22,7 +22,7 @@ public class TagController {
     @GetMapping("/{name}")
     public ResponseEntity<Tag> getTagByName(@PathVariable String name) {
         Tag tag = tagService.findTagByName(name);
-        return ResponseEntity.ok(tag);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tag);
     }
 
     @PostMapping()
@@ -36,5 +36,11 @@ public class TagController {
 
         Tag saveTag = tagService.saveTag(tag);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveTag);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Tag>> getAllTag() {
+        List<Tag> tags = tagService.getAllTag();
+        return ResponseEntity.status(HttpStatus.FOUND).body(tags);
     }
 }

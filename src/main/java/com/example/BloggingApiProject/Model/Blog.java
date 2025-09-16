@@ -25,6 +25,14 @@ public class Blog {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
+            name = "blog_category",
+            joinColumns = @JoinColumn(name = "blogs_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
         name = "blog_tags",
         joinColumns = @JoinColumn(name = "blogs_id"),
         inverseJoinColumns = @JoinColumn(name = "tags_id")
@@ -40,9 +48,10 @@ public class Blog {
     public Blog() {
     }
 
-    public Blog(String title, String content, List<Tag> tags, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Blog(String title, String content, List<Category> categories, List<Tag> tags, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.title = title;
         this.content = content;
+        this.categories = categories;
         this.tags = tags;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
@@ -70,6 +79,14 @@ public class Blog {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public List<Tag> getTags() {

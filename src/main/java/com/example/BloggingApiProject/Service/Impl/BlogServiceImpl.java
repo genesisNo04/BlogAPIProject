@@ -34,11 +34,12 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void deleteBlog(Long id) {
-
+        Blog blog = blogRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Blog is not found with id: " + id));
+        blogRepository.delete(blog);
     }
 
     @Override
     public Blog updateBlog(Blog blog) {
-        return blogRepository.save();
+        return blogRepository.save(blog);
     }
 }

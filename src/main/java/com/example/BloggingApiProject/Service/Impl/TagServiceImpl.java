@@ -1,5 +1,6 @@
 package com.example.BloggingApiProject.Service.Impl;
 
+import com.example.BloggingApiProject.Exception.ResourceNotFoundException;
 import com.example.BloggingApiProject.Model.Tag;
 import com.example.BloggingApiProject.Repository.TagsRepository;
 import com.example.BloggingApiProject.Service.TagService;
@@ -19,7 +20,7 @@ public class TagServiceImpl implements TagService {
         Tag tag = tagsRepository.findTagByName(name);
 
         if (tag == null) {
-            throw new RuntimeException("No tag with name: " + name);
+            throw new ResourceNotFoundException("No tag with name: " + name);
         }
 
         return tag;

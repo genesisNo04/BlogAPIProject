@@ -17,6 +17,8 @@ public class BlogDTO {
 
     private List<String> tags;
 
+    private List<String> categories;
+
     public String getBlogTitle() {
         return blogTitle;
     }
@@ -39,5 +41,13 @@ public class BlogDTO {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 }
