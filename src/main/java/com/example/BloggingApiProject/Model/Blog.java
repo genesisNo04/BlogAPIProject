@@ -23,7 +23,7 @@ public class Blog {
     @Column(name = "blog_content")
     private String content;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinTable(
             name = "blog_category",
             joinColumns = @JoinColumn(name = "blogs_id"),
@@ -31,7 +31,7 @@ public class Blog {
     )
     private List<Category> categories;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinTable(
         name = "blog_tags",
         joinColumns = @JoinColumn(name = "blogs_id"),

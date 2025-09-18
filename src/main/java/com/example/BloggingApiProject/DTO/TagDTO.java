@@ -1,14 +1,10 @@
 package com.example.BloggingApiProject.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
 
-@AllArgsConstructor
-@Getter
-@Setter
 public class TagDTO {
 
+    @NotBlank(message = "Tag name is required")
     private String name;
 
     public String getName() {

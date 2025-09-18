@@ -3,6 +3,7 @@ package com.example.BloggingApiProject.Controller;
 import com.example.BloggingApiProject.Exception.AlreadyExistException;
 import com.example.BloggingApiProject.Model.Category;
 import com.example.BloggingApiProject.Service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/v1/category")
+@RestController
+@RequestMapping("/v1")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping
-    public ResponseEntity<Category> saveCategory(@RequestBody String name) {
+    @PostMapping("/admin/category")
+    public ResponseEntity<Category> saveCategory(@Valid @RequestBody String name) {
         if (categoryService.existsByName(name)) {
             throw new AlreadyExistException("Category " + name + " already exists.");
         }
@@ -27,7 +28,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
     }
 
-    @GetMapping
+    @GetMapping("/user/category")
     public ResponseEntity<List<Category>> getAllCategory() {
         List<Category> categories = categoryService.getAllCategory();
         return ResponseEntity.status(HttpStatus.FOUND).body(categories);

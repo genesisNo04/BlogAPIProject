@@ -1,22 +1,21 @@
 package com.example.BloggingApiProject.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
-@AllArgsConstructor
-@Getter
-@Setter
 public class BlogDTO {
 
+    @NotBlank(message = "Blog title is required")
     private String blogTitle;
 
+    @NotBlank(message = "Blog content is required")
     private String blogContent;
 
+    @NotEmpty(message = "Tags cannot be empty")
     private List<String> tags;
 
+    @NotEmpty(message = "Category cannot be empty")
     private List<String> categories;
 
     public String getBlogTitle() {

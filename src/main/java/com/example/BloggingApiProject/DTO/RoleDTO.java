@@ -1,11 +1,12 @@
 package com.example.BloggingApiProject.DTO;
 
-import jakarta.validation.constraints.NotBlank;
+public class RoleDTO {
 
-public class CategoryDTO {
-
-    @NotBlank(message = "Category name is required")
     private String name;
+
+    public RoleDTO(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
