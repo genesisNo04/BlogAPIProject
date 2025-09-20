@@ -20,14 +20,15 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private RoleRepository roleRepository;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public User createUser(UserDTO userDTO) {
@@ -35,17 +36,16 @@ public class UserServiceImpl implements UserService {
             throw new AlreadyExistException("User already exist with username: " + userDTO.getUsername());
         }
 
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setCreatedAt(LocalDateTime.now());
-        user.setModifiedAt(LocalDateTime.now());
+        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
 
-        List<Role> role = userDTO.getRoles().stream().map(roleName -> roleRepository.findByName(roleName).orElseThrow(() -> new ResourceNotFoundException("No role with name: " + roleName))).toList();
-        user.setRoles(role);
+        List<Role> roles = userDTO.getRoles().stream()
+                .map(roleName -> roleRepository.findByName(roleName)
+                        .orElseThrow(() -> new ResourceNotFoundException("No role with name: " + roleName)))
+                .collect(Collectors.toList());
 
-        userRepository.save(user);
-        return user;
+        User user = new User(userDTO.getUsername(), encodedPassword, roles, LocalDateTime.now(), LocalDateTime.now());
+
+        return userRepository.save(user);
     }
 
     @Override
